@@ -29,7 +29,7 @@ struct Onboarding: View {
                         .scaleEffect(isExpanded ? 20 :0)
                         .padding(.bottom, -(UIScreen.main.bounds.width / 2))
                 }
-                .frame(height: .infinity)
+                .frame(maxHeight: .infinity)
                 .zIndex(isExpanded ? 2:0)
                 
                 VStack(spacing: 15){
