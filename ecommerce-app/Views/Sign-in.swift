@@ -6,11 +6,17 @@
 //
 
 import SwiftUI
+import FirebaseAuth
+import FirebaseCore
+import FirebaseFirestore
 
 struct Sign_in: View {
     
     @State private var password: String = ""
     @State private var email: String = ""
+    
+    @State private var isLoading = false
+    @State private var isSigned = false
     
     @Environment(\.presentationMode) var dismiss
     
@@ -58,17 +64,56 @@ struct Sign_in: View {
             
                 VStack(spacing: 15, content: {
                     Button {
+                        isLoading = true
                         
+                        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+                            
+                            if error != nil {
+                                print(error?.localizedDescription ?? "")
+                                withAnimation{
+                                    isLoading.toggle()
+                                }
+                            } else {
+                                isSigned = true
+                                
+                                let db = Firestore.firestore()
+                                db.collection("USERS").document(result?.user.uid ?? "").getDocument() { document, error in
+                                    
+                                    if let document = document, document.exists {
+                                        let name = document.get("User_name") as? String ?? ""
+                                        let email = document.get("Email") as? String ?? ""
+                                        
+                                        UserDefaults.standard.set(name, forKey: "NAME")
+                                        UserDefaults.standard.set(email, forKey: "EMAIL")
+                                        
+                                        isLoading.toggle()
+                                
+                                    }
+                                    else {
+                                        isLoading.toggle()
+                                        print("Document Not Exist")
+                                    }
+                                }
+                            }
+                        }
                     }
                     label: {
-                        Text("Continue")
+                        if isLoading {
+                            ProgressView()
+                        }
+                        else {
+                            Text("Continue")
+                                .fontWeight(.semibold)
+                        }
                     }
                     .frame(maxWidth: .infinity)
                     .frame(height: 60)
                     .background(.red)
                     .foregroundStyle(.white)
                     .clipShape(Capsule())
-                    
+                    .navigationDestination(isPresented: $isSigned){
+                        ContentView()
+                    }
                     NavigationLink{
                         Sign_up()
                     }
