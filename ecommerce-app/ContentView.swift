@@ -9,13 +9,13 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State var isActive = false
-    
     var body: some View {
         VStack {
-            Splash()
+            Text("hello its me")
         }
+        .navigationBarHidden(true)
     }
+    
 }
 
 #Preview {
