@@ -9,7 +9,10 @@ import SwiftUI
 
 struct Home: View {
     @State var currentCategory = "All"
-    @State var productList = sampleProducts
+    @State var productList = [ProductsModel]()
+    @State var product: ProductsModel? = nil
+    @State var showProduct = false
+    @StateObject var db = Database()
     
     var body: some View {
         NavigationStack{
@@ -35,9 +38,15 @@ struct Home: View {
                         .zIndex(1)
                     
                     productsView
+                        .fullScreenCover(isPresented: $showProduct){
+                            Product(data: product ?? db.productList[0])
+                        }
                         .zIndex(0)
                 })
                 .padding()
+                .onAppear(){
+                    productList = db.productList
+                }
             }
             .scrollIndicators(.hidden)
         }
@@ -68,10 +77,10 @@ struct Home: View {
                             currentCategory = item.title
                             
                             if item.title == "All" {
-                                productList = sampleProducts
+                                productList =  db.productList
                             }
                             else {
-                                productList = sampleProducts.filter {
+                                productList =  db.productList.filter {
                                     $0.brand == item.title
                                 }
                             }
@@ -101,9 +110,14 @@ struct Home: View {
                     
                     Text("$\(item.price)")
                         .font(.callout)
-                    
-                    
                 }
+                .padding()
+                .background(.gray.opacity(0.1))
+                .clipShape(RoundedRectangle(cornerRadius: 30))
+                .onTapGesture(perform: {
+                    product = item
+                    showProduct = true
+                })
             }
         }
     }
