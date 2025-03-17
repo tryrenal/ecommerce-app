@@ -88,6 +88,9 @@ struct Home: View {
                     }
                 }
             })
+            .onAppear(){
+                productList = db.productList
+            }
         }
     }
     

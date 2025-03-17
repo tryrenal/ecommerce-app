@@ -17,10 +17,10 @@ struct Splash: View {
         VStack{
             if isActive == true {
                 if Auth.auth().currentUser != nil {
-                    Onboarding()
+                    ContentView()
                 }
                 else {
-                    ContentView()
+                    Onboarding()
                 }
             }
             else {
