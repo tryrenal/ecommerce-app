@@ -48,11 +48,13 @@ struct Sign_in: View {
                                 .stroke(.gray.opacity(0.8),lineWidth: 0.5)
                         })
                     
-                    TextField("Password", text: $password)
+                    SecureField("Password", text: $password)
                         .frame(height: 60)
                         .padding(.horizontal)
                         .background(.gray.opacity(0.2))
                         .clipShape(Capsule())
+                        .disableAutocorrection(false)
+                        .autocapitalization(.none)
                         .overlay(content: {
                             Capsule()
                                 .stroke(.gray.opacity(0.8),lineWidth: 0.5)
