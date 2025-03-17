@@ -13,6 +13,7 @@ struct Home: View {
     @State var product: ProductsModel? = nil
     @State var showProduct = false
     @StateObject var db = Database()
+    @State private var isLoading = false
     
     var body: some View {
         NavigationStack{
@@ -37,18 +38,33 @@ struct Home: View {
                     categoriesView
                         .zIndex(1)
                     
-                    productsView
-                        .fullScreenCover(isPresented: $showProduct){
-                            Product(data: product ?? db.productList[0])
-                        }
-                        .zIndex(0)
+                    if isLoading {
+                        ProgressView()
+                    }
+                    else {
+                        productsView
+                            .fullScreenCover(isPresented: $showProduct){
+                                Product(data: product ?? db.productList[0])
+                            }
+                            .zIndex(0)
+                    }
+                    
                 })
                 .padding()
                 .onAppear(){
-                    productList = db.productList
+                    loadData()
                 }
             }
             .scrollIndicators(.hidden)
+        }
+    }
+    
+    private func loadData(){
+        isLoading = true
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+            productList = db.productList
+            isLoading = false
         }
     }
     
@@ -88,9 +104,6 @@ struct Home: View {
                     }
                 }
             })
-            .onAppear(){
-                productList = db.productList
-            }
         }
     }
     

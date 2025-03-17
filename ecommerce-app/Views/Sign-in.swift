@@ -122,13 +122,12 @@ struct Sign_in: View {
                     label: {
                         Text("Not having account? **Signup**")
                             .frame(maxWidth: .infinity)
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.black)
                     }
                 })
                 
             }
             .padding()
-            .preferredColorScheme(.dark)
         }
         .navigationBarHidden(true)
     }

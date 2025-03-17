@@ -131,14 +131,13 @@ struct Sign_up: View {
                     label: {
                         Text("Already have an account? **Signin**")
                             .frame(maxWidth: .infinity)
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.black)
                     }
                     
                 })
                 
             }
             .padding()
-            .preferredColorScheme(.dark)
         }
         .navigationBarHidden(true)
         

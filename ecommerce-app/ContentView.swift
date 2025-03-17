@@ -18,6 +18,7 @@ struct ContentView: View {
                 }
                 .toolbarBackground(.visible, for: .tabBar)
                 .toolbarBackground(.ultraThickMaterial, for: .tabBar)
+                
             
             Text("Search View")
                 .tabItem{
@@ -26,6 +27,7 @@ struct ContentView: View {
                 }
                 .toolbarBackground(.visible, for: .tabBar)
                 .toolbarBackground(.ultraThickMaterial, for: .tabBar)
+                
             
             Text("Cart View")
                 .tabItem{
@@ -34,15 +36,16 @@ struct ContentView: View {
                 }
                 .toolbarBackground(.visible, for: .tabBar)
                 .toolbarBackground(.ultraThickMaterial, for: .tabBar)
+                
             
-            Text("Profile View")
+            Profile()
                 .tabItem{
                     Image(systemName: "person")
                     Text("Profile")
                 }
                 .toolbarBackground(.visible, for: .tabBar)
                 .toolbarBackground(.ultraThickMaterial, for: .tabBar)
-                         
+            
         }
         .tint(.black)
         .navigationBarHidden(true)
